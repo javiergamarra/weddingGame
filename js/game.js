@@ -10,6 +10,7 @@ g.addColorStop(1, '#d0e7f9');
 var loop;
 var w = c.width;
 var h = c.height;
+var numberOfClouds = 10;
 
 var clear = function() {
 	ctx.fillStyle = g;
@@ -19,35 +20,24 @@ var clear = function() {
 	ctx.fill();
 }
 
-var howManyCircles = 10, circles = [];
-for ( var i = 0; i < howManyCircles; i++)
-	circles.push( [ Math.random() * w,
-			h / 2 - 2.5 * h / 2 * Math.random(),
-			Math.random() * 40, Math.random() / 2 ]);
+var numberOfClouds = 10, circles = [];
+for ( var i = 0; i < numberOfClouds; i++)
+	circles.push(new Cloud(Math.random() * w,h / 2 - 2.5 * h / 2 * Math.random(),
+			Math.random() * 40, Math.random() / 2))
 var DrawCircles = function() {
-	for ( var i = 0; i < howManyCircles; i++) {
-		ctx.fillStyle = 'rgba(255, 255, 255, ' + circles[i][3] + ')';
+	for ( var i = 0; i < numberOfClouds; i++) {
+		ctx.fillStyle = 'rgba(255, 255, 255, ' + circles[i].transparency + ')';
 		ctx.beginPath();
-		ctx.arc(circles[i][0], circles[i][1], circles[i][2], 0, Math.PI * 2,
+		ctx.arc(circles[i].positionX, circles[i].positionY, circles[i].radius, 0, Math.PI * 2,
 				true);
 		ctx.closePath();
 		ctx.fill();
 	}
 };
 
-var MoveCircles = function(deltaY) {
-	for ( var i = 0; i < howManyCircles; i++) {
-		if (circles[i][0] - circles[i][2] > w) {
-			// the circle is under the screen so we change
-			// informations about it
-			circles[i][0] = 0 - circles[i][2];
-			circles[i][1] = h / 2 - 2.5 * h / 2 * Math.random();
-			circles[i][2] = Math.random() * 40;
-			circles[i][3] = Math.random() / 2;
-		} else {
-			// move circle deltaY pixels down
-			circles[i][0] += deltaY;
-		}
+var MoveCircles = function(deltaX) {
+	for ( var i = 0; i < numberOfClouds; i++) {
+		circles[i].move(deltaX);
 	}
 };
 
