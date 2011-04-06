@@ -10,7 +10,7 @@ g.addColorStop(1, '#d0e7f9');
 var loop;
 var w = c.width;
 var h = c.height;
-var numberOfClouds = 7, clouds = [];
+var numberOfClouds = 7, clouds = [], numberOfMountains = 7, mountains = [];
 
 var player = new Player();
 player.setPosition(0, ~~(h - player.height));
@@ -35,6 +35,25 @@ var drawClouds = function() {
 		ctx.fill();
 	}
 };
+
+for ( var i = 0; i < numberOfMountains; i++)
+	mountains.push(new Mountain(w, h))
+var drawMountains = function() {
+	for ( var i = 0; i < numberOfMountains; i++) {
+		ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+		ctx.fillStyle = 'rgba(65, 36, 11, ' + mountains[i].transparency + ')';
+		ctx.beginPath();
+		ctx.moveTo(mountains[i].startingPosition, h);
+		var size = (Math.random() * 40);
+		ctx.lineTo(mountains[i].startingPosition + mountains[i].size,
+				mountains[i].cima);
+		ctx.lineTo(mountains[i].startingPosition + 2 * mountains[i].size, h);
+		ctx.fill();
+		ctx.stroke();
+		ctx.closePath();
+	}
+};
+drawMountains();
 
 var moveClouds = function(deltaX) {
 	for ( var i = 0; i < numberOfClouds; i++) {
@@ -90,6 +109,7 @@ var GameLoop = function() {
 	clear();
 	drawClouds();
 	moveClouds(1);
+	drawMountains();
 	if (player.isJumping)
 		player.checkJump();
 	if (player.isFalling)
