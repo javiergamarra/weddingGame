@@ -42,7 +42,7 @@ var moveClouds = function(deltaX) {
 	}
 };
 
-document.onkeydown  = KeyCheck;
+document.onkeydown = KeyCheck;
 function KeyCheck() {
 	var KeyID = event.keyCode;
 	switch (KeyID) {
@@ -50,7 +50,7 @@ function KeyCheck() {
 		player.moveLeft();
 		break;
 	case 38:
-		document.Form1.KeyName.value = "Arrow Up";
+		player.jump();
 		break;
 	case 39:
 		player.moveRight();
@@ -61,10 +61,39 @@ function KeyCheck() {
 	}
 }
 
+var keys = new Array();
+function doKeyDown(evt) {
+	keys[evt.keyCode] = true;
+}
+function doKeyUp(evt) {
+	keys[evt.keyCode] = false;
+}
+function move() {
+	if (38 in keys && keys[38]) { // up
+		player.jump();
+	}
+	if (40 in keys && keys[40]) { // down
+	}
+	if (37 in keys && keys[37]) { // left
+		player.moveLeft();
+	}
+	if (39 in keys && keys[39]) { // right
+		player.moveRight();
+	}
+}
+
+window.addEventListener('keydown', doKeyDown, true);
+window.addEventListener('keyup', doKeyUp, true);
+
 var GameLoop = function() {
+	move();
 	clear();
 	drawClouds();
 	moveClouds(1);
+	if (player.isJumping)
+		player.checkJump();
+	if (player.isFalling)
+		player.checkFall();
 	player.draw(ctx);
 	loop = setTimeout(GameLoop, 1000 / 50);
 }
