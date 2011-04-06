@@ -26,3 +26,14 @@ Player.prototype.draw = function(ctx) {
 	}
 }
 
+Player.prototype.moveLeft = function() {
+	if (this.X > 0) {
+		this.setPosition(this.X - 10, this.Y);
+	}
+}
+
+Player.prototype.moveRight = function() {
+	if (this.X + this.width < w) {
+		this.setPosition(this.X + 10, this.Y);
+	}
+}
