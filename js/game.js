@@ -10,7 +10,12 @@ g.addColorStop(1, '#d0e7f9');
 var loop;
 var w = c.width;
 var h = c.height;
-var numberOfClouds = 10, clouds = [];
+var numberOfClouds = 7, clouds = [];
+
+var player = new Player();
+player.setPosition(0,
+		~~(h - player.height));
+
 
 var clear = function() {
 	ctx.fillStyle = g;
@@ -43,6 +48,7 @@ var GameLoop = function() {
 	clear();
 	drawClouds();
 	moveClouds(1);
+	player.draw(ctx);
 	loop = setTimeout(GameLoop, 1000 / 50);
 }
 GameLoop();
