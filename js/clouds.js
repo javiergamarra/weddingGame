@@ -30,3 +30,12 @@ Cloud.prototype.initStartingValues = function() {
 	this.radius = CLOUD_MIN_SIZE + Math.random() * CLOUD_MAX_SIZE;
 	this.transparency = Math.random() / 2;
 }
+
+Cloud.prototype.draw = function(ctx) {
+	ctx.fillStyle = 'rgba(255, 255, 255, ' + this.transparency + ')';
+	ctx.beginPath();
+	ctx.arc(this.positionX, this.positionY, this.radius, 0, Math.PI * 2, true);
+	ctx.closePath();
+	ctx.fill();
+}
+

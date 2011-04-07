@@ -10,7 +10,7 @@ g.addColorStop(1, '#d0e7f9');
 var loop;
 var w = c.width;
 var h = c.height;
-var numberOfClouds = 7, clouds = [], numberOfMountains = 7, mountains = [];
+var numberOfClouds = 7, clouds = [], numberOfMountains = 7, mountains = [],numberOfTrees = 27, trees = [];
 
 var player = new Player();
 player.setPosition(0, ~~(h - player.height));
@@ -27,12 +27,7 @@ for ( var i = 0; i < numberOfClouds; i++)
 	clouds.push(new Cloud(w, h))
 var drawClouds = function() {
 	for ( var i = 0; i < numberOfClouds; i++) {
-		ctx.fillStyle = 'rgba(255, 255, 255, ' + clouds[i].transparency + ')';
-		ctx.beginPath();
-		ctx.arc(clouds[i].positionX, clouds[i].positionY, clouds[i].radius, 0,
-				Math.PI * 2, true);
-		ctx.closePath();
-		ctx.fill();
+		clouds[i].draw(ctx);
 	}
 };
 
@@ -40,20 +35,19 @@ for ( var i = 0; i < numberOfMountains; i++)
 	mountains.push(new Mountain(w, h))
 var drawMountains = function() {
 	for ( var i = 0; i < numberOfMountains; i++) {
-		ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-		ctx.fillStyle = 'rgba(65, 36, 11, ' + mountains[i].transparency + ')';
-		ctx.beginPath();
-		ctx.moveTo(mountains[i].startingPosition, h);
-		var size = (Math.random() * 40);
-		ctx.lineTo(mountains[i].startingPosition + mountains[i].size,
-				mountains[i].cima);
-		ctx.lineTo(mountains[i].startingPosition + 2 * mountains[i].size, h);
-		ctx.fill();
-		ctx.stroke();
-		ctx.closePath();
+		mountains[i].draw(ctx);
 	}
 };
 drawMountains();
+
+for ( var i = 0; i < numberOfTrees; i++)
+	trees.push(new Tree(w, h))
+var drawTrees = function() {
+	for ( var i = 0; i < numberOfTrees; i++) {
+		trees[i].draw(ctx);
+	}
+};
+drawTrees();
 
 var moveClouds = function(deltaX) {
 	for ( var i = 0; i < numberOfClouds; i++) {
@@ -91,6 +85,7 @@ var GameLoop = function() {
 	drawClouds();
 	moveClouds(1);
 	drawMountains();
+	drawTrees();
 	if (player.isJumping)
 		player.checkJump();
 	if (player.isFalling)
