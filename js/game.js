@@ -61,25 +61,6 @@ var moveClouds = function(deltaX) {
 	}
 };
 
-document.onkeydown = KeyCheck;
-function KeyCheck() {
-	var KeyID = event.keyCode;
-	switch (KeyID) {
-	case 37:
-		player.moveLeft();
-		break;
-	case 38:
-		player.jump();
-		break;
-	case 39:
-		player.moveRight();
-		break;
-	case 40:
-		document.Form1.KeyName.value = "Arrow Down";
-		break;
-	}
-}
-
 var keys = new Array();
 function doKeyDown(evt) {
 	keys[evt.keyCode] = true;
